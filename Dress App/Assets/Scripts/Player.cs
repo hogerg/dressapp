@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
 
-    public float speed = 10f;
+    /*public float speed = 10f;
     private float lastSynchronizationTime = 0f;
     private float syncDelay = 0f;
     private float syncTime = 0f;
@@ -83,5 +83,5 @@ public class Player : MonoBehaviour {
             syncStartPosition = GetComponent<Rigidbody>().position;
             //GetComponent<Rigidbody>().position = syncPosition;
         }
-    }
+    }*/
 }
