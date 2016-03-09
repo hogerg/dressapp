@@ -15,7 +15,7 @@ public class color_changing_blue_button : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        mit = GameObject.Find("a_square");
+        mit = GameObject.Find("ruha1");
         baba = GameObject.Find("baba1");
        // gomb1 = GameObject.Find("Button_Blue");
       //  gomb2 = GameObject.Find("Button_Red");
