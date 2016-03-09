@@ -34,10 +34,4 @@ public class UIManager : MonoBehaviour {
         objectColor = c;
         print(c.ToString());
     }
-
-    public void NavigateTo(int scene)
-    {
-        Application.LoadLevel(scene);
-    }
- 
 }
