@@ -45,23 +45,25 @@ public class MatchMaking : MonoBehaviour
             {
                 if (GUI.Button(new Rect(btOffsetX, btOffsetY, btWidth, btHeight), ""))
                 {
-                    //Gombot megnyomtuk
-
-                    //Lekerdezzuk a szerverlistat es letrehozunk/csatlakozunk
                     manager.matchMaker.ListMatches(0, 20, "", manager.OnMatchList);
-
-                    //Ha ez a resz itt van, akkor az aszinkronitas miatt hibasan mukodik
-
-                    /*if (manager.matches == null || manager.matches.Count == 0)
-                    {
-                        manager.matchMaker.CreateMatch(manager.matchName, manager.matchSize, true, "", manager.OnMatchCreate);
-                    }
-                    else
-                    {
-                        manager.matchMaker.JoinMatch(manager.matches[0].networkId, "", manager.OnMatchJoined);
-                    }*/
+                    StartCoroutine(JoinGame());
                 }
             }
+        }
+    }
+
+    public IEnumerator JoinGame()
+    {
+        yield return new WaitForSeconds(3f);
+        //Ha nincs meg host, semmi
+        if (manager.matches == null || manager.matches.Count == 0)
+        {
+            Debug.Log("Server not started");
+        }
+        else
+        {
+            manager.matchMaker.JoinMatch(manager.matches[0].networkId, "", manager.OnMatchJoined);
+            Debug.Log("Server joined : " + manager.networkAddress);
         }
     }
 }
