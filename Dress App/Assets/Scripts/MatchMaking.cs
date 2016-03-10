@@ -1,9 +1,6 @@
 ﻿/*
 Beallitja a kapcsolatot a Unity matchmakerrel, gombra kattintaskor
 frissul a szerverlista. Ha mar van szerver, akkor arra csatlakozik.
-Ennek jobb lenne itt lennie, de az ExtendedNetworkManager scriptben
-van megirva, mert a callback fuggveny aszinkron es elobb kerdezodne
-le a match lista allapota, minthogy a callback teljesen lefutna.
 */
 
 using UnityEngine;
@@ -15,30 +12,37 @@ using UnityEngine.Networking;
 public class MatchMaking : MonoBehaviour
 {
     private NetworkManager manager;
-    private float btOffsetX;
-    private float btOffsetY;
-    private float btWidth;
-    private float btHeight;
+    private float btOffsetX, btOffsetY, btWidth, btHeight, scale;
+
+    Texture2D connectImageNormal, connectImageHover;
 
     //Inicializalaskor lefut
     void Awake()
     {
-        btOffsetX = (Screen.width / 1280f) * 1200;
-        btOffsetY = (Screen.height / 720f) * 210;
-        btWidth = (Screen.width / 1200f) * 60;
-        btHeight = (Screen.height / 720f) * 300;
+        scale = Screen.width / 1280f;
+        btOffsetX = 920 * scale;
+        btOffsetY = 160 * scale;
+        btWidth = 280 * scale;
+        btHeight = 560 * scale;
 
         manager = GetComponent<NetworkManager>();
         manager.matchName = "Test";
         manager.matchSize = 10;
         manager.SetMatchHost("mm.unet.unity3d.com", 443, true);
+
+        connectImageNormal = Resources.Load("zart_ajto") as Texture2D;
+        connectImageHover = Resources.Load("nyitott_ajto") as Texture2D;
     }
 
     //Rajzolaskor meghivodik
     void OnGUI()
     {
+        //Gomb kepek beallitasa
+        GUI.skin.button.normal.background = connectImageNormal;
+        GUI.skin.button.hover.background = connectImageHover;
+        GUI.skin.button.active.background = connectImageHover;
         //Ha nincs csatlakozva
-        if(!NetworkServer.active && !NetworkClient.active){
+        if (Application.loadedLevelName == "mainScene" || (!NetworkServer.active && !NetworkClient.active)){
             if(manager.matchMaker == null)
                 manager.StartMatchMaker();
             else
@@ -50,6 +54,21 @@ public class MatchMaking : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            if (Application.loadedLevelName == "multiScene") {
+                if (GUI.Button(new Rect(20, btOffsetY, btWidth, btHeight), ""))
+                {
+                    manager.matchMaker.DropConnection(manager.matchInfo.networkId, manager.matchInfo.nodeId, OnMatchmakerDrop);
+                }
+            }
+        }
+    }
+
+    void OnMatchmakerDrop(UnityEngine.Networking.Match.BasicResponse response)
+    {
+        Debug.Log("Client disconnected; " + response.ToString());
+        
     }
 
     public IEnumerator JoinGame()
@@ -66,6 +85,8 @@ public class MatchMaking : MonoBehaviour
             Debug.Log("Server joined : " + manager.networkAddress);
         }
     }
+
+    
 }
 
 #endif

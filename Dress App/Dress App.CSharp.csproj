@@ -63,11 +63,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\ExtendedNetworkManager.cs" />
     <Compile Include="Assets\Scripts\MatchMaking.cs" />
     <Compile Include="Assets\Scripts\Menu_SlideInAnimator.cs" />
-    <Compile Include="Assets\Scripts\NetManager.cs" />
-    <Compile Include="Assets\Scripts\OfflineControls.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\ServerLogger.cs" />
     <Compile Include="Assets\Scripts\ServerScript.cs" />
