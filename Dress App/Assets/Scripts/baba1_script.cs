@@ -10,7 +10,8 @@ public class baba1_script : MonoBehaviour {
         baba = GameObject.Find(b);
         baba.GetComponent<Renderer>().enabled = false;
         this.GetComponent<Renderer>().enabled = true;
-        this.transform.position = new Vector3(0, 0, 0); 
+        float f = float.Parse("-0.75");
+        this.transform.position = new Vector3(1, f, 0); 
     }
 
 	// Use this for initialization
