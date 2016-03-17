@@ -36,6 +36,11 @@ public class UIManager : MonoBehaviour {
         print(c.ToString());
     }
 
+    public void none(Sprite s)
+    {
+        objectImage= s;
+    }
+
     public void SetImage(Sprite im)//ez meg a kép amire megváltoztatod.
     {
         objectImage = im;
@@ -45,5 +50,7 @@ public class UIManager : MonoBehaviour {
     {
         Image im = GameObject.Find(obj.name).GetComponent<Image>();
         im.sprite = objectImage;
+
     }
+
 }
