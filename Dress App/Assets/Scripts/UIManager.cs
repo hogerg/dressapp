@@ -5,6 +5,7 @@ using System.Collections;
 public class UIManager : MonoBehaviour {
 
     private Color32 objectColor;
+    private Sprite objectImage;
 
     public void DisableBool(Animator anim)
     {
@@ -33,5 +34,16 @@ public class UIManager : MonoBehaviour {
         ColorUtility.TryParseHtmlString(hex, out c);
         objectColor = c;
         print(c.ToString());
+    }
+
+    public void SetImage(Sprite im)//ez meg a kép amire megváltoztatod.
+    {
+        objectImage = im;
+    }
+
+    public void ChangeObjectImage(GameObject obj)//Ez a objet, aminek a képét megváltoztatod
+    {
+        Image im = GameObject.Find(obj.name).GetComponent<Image>();
+        im.sprite = objectImage;
     }
 }
