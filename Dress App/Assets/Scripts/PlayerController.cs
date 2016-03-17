@@ -10,6 +10,11 @@ public class PlayerController : NetworkBehaviour {
         if (!isLocalPlayer) return;
         speed = 10;
         InputMovement();
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        Vector3 col = new Vector3(0.1f,0.1f,0.1f) * netId.Value;
+        col.Normalize();
+        //sr.color = col * netId.Value;
+        sr.color = new Color(col.x, col.y, col.z);
 	}
 
     private void InputMovement()

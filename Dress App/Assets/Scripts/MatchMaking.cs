@@ -27,7 +27,7 @@ public class MatchMaking : MonoBehaviour
 
         manager = GetComponent<NetworkManager>();
         manager.matchName = "Test";
-        manager.matchSize = 10;
+        manager.matchSize = 4;
         manager.SetMatchHost("mm.unet.unity3d.com", 443, true);
 
         connectImageNormal = Resources.Load("zart_ajto") as Texture2D;
@@ -63,6 +63,12 @@ public class MatchMaking : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void ConnectToServer()
+    {
+        manager.matchMaker.ListMatches(0, 20, "", manager.OnMatchList);
+        StartCoroutine(JoinGame());
     }
 
     void OnMatchmakerDrop(UnityEngine.Networking.Match.BasicResponse response)

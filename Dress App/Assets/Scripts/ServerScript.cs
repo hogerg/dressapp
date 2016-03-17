@@ -17,7 +17,7 @@ public class ServerScript : MonoBehaviour
     {
         manager = GetComponent<NetworkManager>();
         manager.matchName = "Dress App Server";
-        manager.matchSize = 10;
+        manager.matchSize = 4;
         manager.SetMatchHost("mm.unet.unity3d.com", 443, true);
 
         scaleX = Screen.width / 1280f;
