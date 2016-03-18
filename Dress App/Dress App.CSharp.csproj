@@ -61,15 +61,6 @@
     <Reference Include="UnityEngine.Analytics">
       <HintPath>Library\UnityAssemblies\UnityEngine.Analytics.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Analytics">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Analytics.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
@@ -83,7 +74,9 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\MatchMaking.cs" />
     <Compile Include="Assets\Scripts\Menu_SlideInAnimator.cs" />
+    <Compile Include="Assets\Scripts\NetManager.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\PlayerProperties.cs" />
     <Compile Include="Assets\Scripts\ServerLogger.cs" />
     <Compile Include="Assets\Scripts\ServerScript.cs" />
     <Compile Include="Assets\Scripts\StickmanAnimator.cs" />
