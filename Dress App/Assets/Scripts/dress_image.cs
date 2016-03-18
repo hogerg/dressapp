@@ -4,7 +4,7 @@ using System.Collections;
 
 public class dress_image : MonoBehaviour {
     Renderer rend;
-    Color c;
+    Color kezdoszin;
     private Sprite objectImage;
 
 
@@ -13,8 +13,32 @@ public class dress_image : MonoBehaviour {
         rend = this.GetComponent<Renderer>();
         GameObject baba = GameObject.Find("baba1");
         this.transform.position = baba.transform.position;
-        c = rend.material.color;
+        //c = rend.material.color;
+        kezdoszin = this.GetComponent<Image>().color;
     }
+
+    public void ResetColor()
+    {
+        this.GetComponent<Image>().color = kezdoszin;
+    }
+
+    /*
+     public void RecolorObject(GameObject obj)
+    {
+        Image im = GameObject.Find(obj.name).GetComponent<Image>();
+        im.color = objectColor;
+    }
+
+    public void SetObjectColor(string hex)
+    {
+        Color c = new Color();
+        ColorUtility.TryParseHtmlString(hex, out c);
+        objectColor = c;
+        print(c.ToString());
+    }
+    */
+
+
 
     public void ruha_athelyez(string b)
     {

@@ -46,6 +46,7 @@ public class UIManager : MonoBehaviour {
         objectImage = im;
     }
 
+
     public void ChangeObjectImage(GameObject obj)//Ez a objet, aminek a képét megváltoztatod
     {
         Image im = GameObject.Find(obj.name).GetComponent<Image>();
