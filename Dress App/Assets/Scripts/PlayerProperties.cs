@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
-using System.Collections;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 using System.IO;
 
-public class PlayerProperties : MonoBehaviour {
+public class PlayerProperties : NetworkBehaviour {
 
+    //[SyncVar]
     public Sprite skinPreset;
     Sprite fullBody, top;
     

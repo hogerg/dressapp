@@ -10,17 +10,13 @@ public class PlayerController : NetworkBehaviour {
         if (!isLocalPlayer) return;
         speed = 10;
         InputMovement();
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
-        Vector3 col = new Vector3(0.1f,0.1f,0.1f) * netId.Value;
-        col.Normalize();
-        //sr.color = col * netId.Value;
-        sr.color = new Color(col.x, col.y, col.z);
+        GetComponent<SpriteRenderer>().sprite = GetComponent<PlayerProperties>().getSkinPreset();
 	}
 
     private void InputMovement()
     {
         Vector2 newPos;
-        if (Input.GetKey(KeyCode.UpArrow))
+        /*if (Input.GetKey(KeyCode.UpArrow))
         {
             newPos = GetComponent<Rigidbody2D>().position + Vector2.up * speed * Time.deltaTime;
             if (newPos.y < 3f)
@@ -36,7 +32,7 @@ public class PlayerController : NetworkBehaviour {
                 GetComponent<Rigidbody2D>().MovePosition(newPos);
             else
                 GetComponent<Rigidbody2D>().MovePosition(new Vector2(newPos.x, -3f));
-        }
+        }*/
 
         if (Input.GetKey(KeyCode.RightArrow))
         {
@@ -65,6 +61,7 @@ public class PlayerController : NetworkBehaviour {
             {
                 // If the finger is on the screen, move the object smoothly to the touch position
                 Vector3 touchPosition = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 10));
+                touchPosition.y = -0.75f;
                 newPos = Vector3.Lerp(transform.position, touchPosition, Time.deltaTime);
                 //transform.position = Vector3.Lerp(transform.position, touchPosition, Time.deltaTime);
                 if(newPos.x > -2.5f && newPos.x < 5.8f && newPos.y < 3f && newPos.y > -3f)
