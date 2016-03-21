@@ -1,17 +1,36 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
+using UnityEngine.UI;
 
 public class PlayerController : NetworkBehaviour {
 
+    public Sprite[] skins;
+    public Sprite[] clothes;
+    public int playerSkin;
     public float speed;
 	
 	void Update () {
+        int skinPreset = GetComponent<PlayerProperties>().getSkinPreset();
+        Sprite s = skins[skinPreset];
+        GetComponent<SpriteRenderer>().sprite = s;
+
+        // ruha.sprite = clothes[0];
+        //GetComponent<GameObject>().AddComponent("RuhaImage")
+        //GameObject goRuha = gameObject.AddComponent<GameObject>();
+        /*Image ruha = gameObject.AddComponent<Image>();
+        ruha.sprite = clothes[0];*/
+
         if (!isLocalPlayer) return;
         speed = 10;
         InputMovement();
-        GetComponent<SpriteRenderer>().sprite = GetComponent<PlayerProperties>().getSkinPreset();
+        GetComponent<PlayerProperties>().CmdSetSkinPreset(playerSkin);
 	}
+
+    public void setPlayerSkin(int i)
+    {
+        playerSkin = i;
+    }
 
     private void InputMovement()
     {

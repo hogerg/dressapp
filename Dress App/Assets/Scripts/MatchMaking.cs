@@ -6,6 +6,7 @@ frissul a szerverlista. Ha mar van szerver, akkor arra csatlakozik.
 using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
+using UnityEngine.Networking.Match;
 
 #if ENABLE_UNET
 
@@ -42,44 +43,33 @@ public class MatchMaking : MonoBehaviour
         GUI.skin.button.hover.background = connectImageHover;
         GUI.skin.button.active.background = connectImageHover;
         //Ha nincs csatlakozva
-        if (Application.loadedLevelName == "mainScene" || (!NetworkServer.active && !NetworkClient.active)){
-            if(manager.matchMaker == null)
+        if (Application.loadedLevelName == "mainScene" || (!NetworkServer.active && !NetworkClient.active))
+        {
+            if (manager.matchMaker == null)
                 manager.StartMatchMaker();
-            else
-            {
-                if (GUI.Button(new Rect(btOffsetX, btOffsetY, btWidth, btHeight), ""))
-                {
-                    manager.matchMaker.ListMatches(0, 20, "", manager.OnMatchList);
-                    StartCoroutine(JoinGame());
-                }
-            }
         }
         else
         {
-            if (Application.loadedLevelName == "multiScene") {
-                if (GUI.Button(new Rect(20, btOffsetY, btWidth, btHeight), ""))
+            if (Application.loadedLevelName == "multiScene")
+            {
+                if (GUI.Button(new Rect(20, btOffsetY, btWidth, btHeight), "DISCONNECT"))
                 {
-                    manager.matchMaker.DropConnection(manager.matchInfo.networkId, manager.matchInfo.nodeId, OnMatchmakerDrop);
+                    //manager.matchMaker.DropConnection(manager.matchInfo.networkId, manager.matchInfo.nodeId, OnMatchmakerDrop);
+                    DisconnectFromServer();
                 }
             }
+
         }
     }
 
-    public void ConnectToServer()
+    public void ListMatches()
     {
-        manager.matchMaker.ListMatches(0, 20, "", manager.OnMatchList);
-        StartCoroutine(JoinGame());
+        manager.matchMaker.ListMatches(0, 20, "", ConnectToServer);
     }
 
-    void OnMatchmakerDrop(UnityEngine.Networking.Match.BasicResponse response)
+    private void ConnectToServer(ListMatchResponse matchList)
     {
-        Debug.Log("Client disconnected; " + response.ToString());
-        
-    }
-
-    public IEnumerator JoinGame()
-    {
-        yield return new WaitForSeconds(3f);
+        manager.OnMatchList(matchList);
         //Ha nincs meg host, semmi
         if (manager.matches == null || manager.matches.Count == 0)
         {
@@ -92,7 +82,18 @@ public class MatchMaking : MonoBehaviour
         }
     }
 
-    
+    public void DisconnectFromServer()
+    {
+        manager.matchMaker.DropConnection(manager.matchInfo.networkId, manager.matchInfo.nodeId, OnMatchmakerDrop);
+        
+    }
+
+    void OnMatchmakerDrop(UnityEngine.Networking.Match.BasicResponse response)
+    {
+        manager.OnClientDisconnect(manager.client.connection);
+        Debug.Log("Client disconnected; " + response.ToString());
+    }
+
 }
 
 #endif

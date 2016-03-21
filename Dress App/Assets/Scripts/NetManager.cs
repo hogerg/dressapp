@@ -4,7 +4,7 @@ using System.Collections;
 
 public class NetManager : NetworkManager {
 
-    public override void OnClientConnect(NetworkConnection conn)
+    /*public override void OnClientConnect(NetworkConnection conn)
     {
         ClientScene.AddPlayer(conn, 0);
     }
@@ -16,6 +16,6 @@ public class NetManager : NetworkManager {
         GameObject player = (GameObject)GameObject.Instantiate(playerPrefab, new Vector2(0f, -0.75f), Quaternion.identity);
         player.GetComponent<SpriteRenderer>().sprite = playerSprite;
         NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
-    }
+    }*/
 
 }

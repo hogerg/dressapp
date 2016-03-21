@@ -5,27 +5,39 @@ using System.IO;
 
 public class PlayerProperties : NetworkBehaviour {
 
-    //[SyncVar]
-    public Sprite skinPreset;
-    Sprite fullBody, top;
+    [SyncVar]
+    public int skinPreset;
+
+    //Sprite fullBody, top;
     
     void Start()
     {
-        //Debug.Log(skinPreset.name);
+        skinPreset = 1;
     }
 
-    public void setSkinPreset(Image skin)
+    [Command]
+    public void CmdSetSkinPreset(int skin)
     {
-        skinPreset = skin.sprite;
+        skinPreset = skin;
     }
 
-    public Sprite getSkinPreset()
+    public int getSkinPreset()
     {
         return skinPreset;
     }
 
-    public void test()
+    void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info)
     {
-        Debug.Log("TESTEST");
+        int skin = skinPreset;
+        if (stream.isWriting)
+        {
+            skin = skinPreset;
+            stream.Serialize(ref skin);
+        }
+        else
+        {
+            stream.Serialize(ref skin);
+            skinPreset = skin;
+        }
     }
 }
