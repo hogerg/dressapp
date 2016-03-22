@@ -7,6 +7,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
 using UnityEngine.Networking.Match;
+using UnityEngine.UI;
 
 #if ENABLE_UNET
 
@@ -20,6 +21,7 @@ public class MatchMaking : MonoBehaviour
     //Inicializalaskor lefut
     void Awake()
     {
+        DontDestroyOnLoad(manager);
         scale = Screen.width / 1280f;
         btOffsetX = 920 * scale;
         btOffsetY = 160 * scale;
@@ -52,13 +54,17 @@ public class MatchMaking : MonoBehaviour
         {
             if (Application.loadedLevelName == "multiScene")
             {
-                if (GUI.Button(new Rect(20, btOffsetY, btWidth, btHeight), "DISCONNECT"))
+                GameObject obj = GameObject.Find("Button_Disconnect");
+                if (obj != null)
                 {
-                    //manager.matchMaker.DropConnection(manager.matchInfo.networkId, manager.matchInfo.nodeId, OnMatchmakerDrop);
-                    DisconnectFromServer();
+                    Button bt = obj.GetComponent<Button>();
+                    if (bt != null)
+                    {
+                        bt.onClick.RemoveAllListeners();
+                        bt.onClick.AddListener(DisconnectFromServer);
+                    } 
                 }
             }
-
         }
     }
 
@@ -77,8 +83,9 @@ public class MatchMaking : MonoBehaviour
         }
         else
         {
+            //manager.matchMaker.JoinMatch(manager.matches[0].networkId, "", manager.OnMatchJoined);
             manager.matchMaker.JoinMatch(manager.matches[0].networkId, "", manager.OnMatchJoined);
-            Debug.Log("Server joined : " + manager.networkAddress);
+            Debug.Log("Server joined : " + manager.networkAddress); 
         }
     }
 

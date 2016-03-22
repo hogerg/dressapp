@@ -9,19 +9,41 @@ public class PlayerController : NetworkBehaviour {
     public Sprite[] clothes;
     public int playerSkin;
     public float speed;
+
+    private GameObject[] playerClothes;
+    private int clothCount;
+
+    void Start()
+    {
+        clothCount = 0;
+        playerClothes = new GameObject[5];
+
+        int skinPreset = GetComponent<PlayerProperties>().getSkinPreset();
+        Sprite s = skins[skinPreset];
+        GetComponent<SpriteRenderer>().sprite = s;
+
+        addClothingToPlayer(0, "teljes");
+        //addClothingToPlayer(1, "teljes2");
+    }
+
+    private void addClothingToPlayer(int clothID, string name)
+    {
+        playerClothes[clothCount] = new GameObject(name);
+        GameObject cloth = playerClothes[clothCount++];
+        cloth.transform.localScale = new Vector3(1, 1, 1) * 0.15f;
+        SpriteRenderer clothImage = cloth.AddComponent<SpriteRenderer>();
+        clothImage.sortingLayerName = "ruha";
+        clothImage.sortingOrder = clothCount - 1;
+        clothImage.sprite = clothes[clothID];
+    }
 	
 	void Update () {
         int skinPreset = GetComponent<PlayerProperties>().getSkinPreset();
         Sprite s = skins[skinPreset];
         GetComponent<SpriteRenderer>().sprite = s;
 
-        // ruha.sprite = clothes[0];
-        //GetComponent<GameObject>().AddComponent("RuhaImage")
-        //GameObject goRuha = gameObject.AddComponent<GameObject>();
-        /*Image ruha = gameObject.AddComponent<Image>();
-        ruha.sprite = clothes[0];*/
-
         if (!isLocalPlayer) return;
+
         speed = 10;
         InputMovement();
         GetComponent<PlayerProperties>().CmdSetSkinPreset(playerSkin);
