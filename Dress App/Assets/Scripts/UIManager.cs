@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Text;
+using System.IO; 
 
 public class UIManager : MonoBehaviour {
 
@@ -52,6 +54,48 @@ public class UIManager : MonoBehaviour {
         Image im = GameObject.Find(obj.name).GetComponent<Image>();
         im.sprite = objectImage;
 
+    }
+
+    public void filebol_olvasas()
+    {
+      //  try
+      //  {
+            string obj_name;
+        string sprite_name;
+            Sprite s = new Sprite();
+
+            string fileName = Application.dataPath + "/" + "file.txt";
+        Debug.Log(fileName);
+            StreamReader f = new StreamReader(fileName, Encoding.Default);
+
+            while (!f.EndOfStream)
+            {
+                obj_name = f.ReadLine();
+                Debug.Log(obj_name);
+
+                GameObject obj=GameObject.Find(obj_name);
+                ChangeObjectImage(obj);
+
+                sprite_name = f.ReadLine();
+                Debug.Log(sprite_name);
+
+                //   Sprite s = Sprite.FindObjectOfType<Sprite>.name(line);
+                string utvon = Application.dataPath + "/" + "Resources" + "/" + "dresses" + sprite_name;//   D:\posza\Posza\suli\bme\szakirany\onlab\gitlab_cucc\dressapp\Dress App\Assets\Resources\dresses
+            Debug.Log(utvon);
+            // Sprite s = Resources.Load(utvon, typeof(Sprite)) as Sprite;
+            // GetComponent(SpriteRenderer).sprite = line;
+            //   GameObject.Find(obj_name).GetComponent().sprite = sprites.GetSprite("Sprite1");
+          //  obj.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(utvon);
+            //  obj.GetComponent<SpriteRenderer>()
+            s = Resources.Load<Sprite>(utvon);
+            SetImage(s);
+        }
+
+      /*  }
+        catch (Exception e)
+        {
+            Debug.Log(e);
+        }*/
     }
 
 }
