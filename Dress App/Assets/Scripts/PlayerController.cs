@@ -10,31 +10,20 @@ public class PlayerController : NetworkBehaviour {
     public int playerSkin;
     public float speed;
 
-    private GameObject[] playerClothes;
-    private int clothCount;
+    public int cDress, cTop, cJacket, cPants, cShoes;
 
     void Start()
     {
-        clothCount = 0;
-        playerClothes = new GameObject[5];
-
-        int skinPreset = GetComponent<PlayerProperties>().getSkinPreset();
-        Sprite s = skins[skinPreset];
+        Sprite s = skins[playerSkin];
         GetComponent<SpriteRenderer>().sprite = s;
 
-        addClothingToPlayer(0, "teljes");
-        //addClothingToPlayer(1, "teljes2");
-    }
-
-    private void addClothingToPlayer(int clothID, string name)
-    {
-        playerClothes[clothCount] = new GameObject(name);
-        GameObject cloth = playerClothes[clothCount++];
-        cloth.transform.localScale = new Vector3(1, 1, 1) * 0.15f;
-        SpriteRenderer clothImage = cloth.AddComponent<SpriteRenderer>();
-        clothImage.sortingLayerName = "ruha";
-        clothImage.sortingOrder = clothCount - 1;
-        clothImage.sprite = clothes[clothID];
+        foreach (Transform t in transform)
+        {
+            if (t.transform.name == "clothes_dress" && cDress > 0)
+            {
+                t.GetComponent<SpriteRenderer>().sprite = clothes[cDress - 1];
+            }
+        }
     }
 	
 	void Update () {
@@ -42,17 +31,30 @@ public class PlayerController : NetworkBehaviour {
         Sprite s = skins[skinPreset];
         GetComponent<SpriteRenderer>().sprite = s;
 
+        int dressID = GetComponent<PlayerProperties>().getDress();
+        //Debug.Log(dressID);
+        foreach (Transform t in transform)
+        {
+            if (t.transform.name == "clothes_dress" && dressID > 0)
+            {
+                t.GetComponent<SpriteRenderer>().sprite = clothes[dressID - 1];
+            }
+        }
+
         if (!isLocalPlayer) return;
 
         speed = 10;
         InputMovement();
         GetComponent<PlayerProperties>().CmdSetSkinPreset(playerSkin);
-	}
-
-    public void setPlayerSkin(int i)
-    {
-        playerSkin = i;
+        GetComponent<PlayerProperties>().CmdSetDress(cDress);
     }
+
+    public void setPlayerSkin(int i) { playerSkin = i; }
+    public void setDress(int i) { cDress = i; }
+    public void setTop(int i) { cTop = i; }
+    public void setJacket(int i) { cJacket = i; }
+    public void setPants(int i) { cPants = i; }
+    public void setShoes(int i) { cShoes = i; }
 
     private void InputMovement()
     {
