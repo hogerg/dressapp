@@ -27,26 +27,45 @@ public class PlayerController : NetworkBehaviour {
     }
 	
 	void Update () {
-        int skinPreset = GetComponent<PlayerProperties>().getSkinPreset();
-        Sprite s = skins[skinPreset];
-        GetComponent<SpriteRenderer>().sprite = s;
 
-        int dressID = GetComponent<PlayerProperties>().getDress();
-        //Debug.Log(dressID);
+        if (!isLocalPlayer)
+        {
+            int skinPreset = GetComponent<PlayerProperties>().getSkinPreset();
+            Sprite s = skins[skinPreset];
+            GetComponent<SpriteRenderer>().sprite = s;
+
+            int dressID = GetComponent<PlayerProperties>().getDress();
+            foreach (Transform t in transform)
+            {
+                if (t.transform.name == "clothes_dress" && dressID > 0)
+                {
+                    t.GetComponent<SpriteRenderer>().sprite = clothes[dressID - 1];
+                }
+            }
+            Debug.Log("OTHER CLIENT: SKIN " + skinPreset + ", DRESS: " + dressID);
+            return;
+        }
+
+
+        GetComponent<PlayerProperties>().CmdSetSkinPreset(playerSkin);
+        GetComponent<PlayerProperties>().CmdSetDress(cDress);
+
+        int ls = GetComponent<PlayerProperties>().getSkinPreset();
+        int ld = GetComponent<PlayerProperties>().getDress();
+
+        Debug.Log("LOCAL CLIENT: SKIN " + ls + ", DRESS: " + ld);
+
+        GetComponent<SpriteRenderer>().sprite = skins[playerSkin];
         foreach (Transform t in transform)
         {
-            if (t.transform.name == "clothes_dress" && dressID > 0)
+            if (t.transform.name == "clothes_dress" && cDress > 0)
             {
-                t.GetComponent<SpriteRenderer>().sprite = clothes[dressID - 1];
+                t.GetComponent<SpriteRenderer>().sprite = clothes[cDress - 1];
             }
         }
 
-        if (!isLocalPlayer) return;
-
         speed = 10;
         InputMovement();
-        GetComponent<PlayerProperties>().CmdSetSkinPreset(playerSkin);
-        GetComponent<PlayerProperties>().CmdSetDress(cDress);
     }
 
     public void setPlayerSkin(int i) { playerSkin = i; }

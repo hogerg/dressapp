@@ -32,7 +32,7 @@ public class PlayerProperties : NetworkBehaviour {
     public int getPants() { return cPants; }
     public int getShoes() { return cShoes; }
 
-    void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info)
+    /*void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info)
     {
         int skin = skinPreset, dress = cDress, top = cTop, jacket = cJacket, pants = cPants, shoes = cShoes;
         if (stream.isWriting)
@@ -40,10 +40,10 @@ public class PlayerProperties : NetworkBehaviour {
             skin = skinPreset;
             stream.Serialize(ref skin);
             stream.Serialize(ref dress);
-            /*stream.Serialize(ref top);
+            stream.Serialize(ref top);
             stream.Serialize(ref jacket);
             stream.Serialize(ref pants);
-            stream.Serialize(ref shoes);*/
+            stream.Serialize(ref shoes);
         }
         else
         {
@@ -51,14 +51,14 @@ public class PlayerProperties : NetworkBehaviour {
             skinPreset = skin;
             stream.Serialize(ref dress);
             cDress = dress;
-            /*stream.Serialize(ref top);
+            stream.Serialize(ref top);
             cTop = top;
             stream.Serialize(ref jacket);
             cJacket = jacket;
             stream.Serialize(ref pants);
             cPants = pants;
             stream.Serialize(ref shoes);
-            cShoes = shoes;*/
+            cShoes = shoes;
         }
-    }
+    }*/
 }
