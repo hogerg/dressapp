@@ -73,15 +73,43 @@ public class UIManager : MonoBehaviour {
                 obj_name = f.ReadLine();
                 Debug.Log("obj name "+obj_name);
 
-                GameObject obj=GameObject.Find(obj_name);
+            //     GameObject obj=GameObject.Find(obj_name);
             //   ChangeObjectImage(obj);
-           
+            GameObject obj = new GameObject();
                 sprite_name = f.ReadLine();
                 Debug.Log("spirete name:"+sprite_name);
 
-                //   Sprite s = Sprite.FindObjectOfType<Sprite>.name(line);
-             //   string utvon = Application.dataPath + "/" + "Resources" + "/" + "dresses" + sprite_name;//   D:\posza\Posza\suli\bme\szakirany\onlab\gitlab_cucc\dressapp\Dress App\Assets\Resources\dresses
-         //   Debug.Log(utvon);
+            Sprite sssss = Resources.Load(sprite_name, typeof(Sprite)) as Sprite;
+            SetImage(sssss);
+
+            Texture2D tex = Resources.Load<Texture2D>(sprite_name) as Texture2D;//nem találja?
+
+            s = Sprite.Create(tex, new Rect(0, 0,324, 614), new Vector2(0.5f, 0.5f));
+
+            obj.AddComponent<SpriteRenderer>();
+            SpriteRenderer sr = obj.GetComponent<SpriteRenderer>();
+            sr.sprite = s;
+            /**
+            
+            
+            // create sprite
+         Texture2D tex = Resources.Load<Texture2D>("texture2") as Texture2D;
+         Sprite sprite = new Sprite();
+         sprite = Sprite.Create(tex, new Rect(64, 0, 64, 64), new Vector2(0.5f, 0.5f));
+            
+            newSprite = new GameObject();
+         newSprite.AddComponent<SpriteRenderer>();
+         SpriteRenderer SR = newSprite.GetComponent<SpriteRenderer>();
+         SR.sprite = sprite;
+
+            
+            
+            */
+
+
+            //   Sprite s = Sprite.FindObjectOfType<Sprite>.name(line);
+            //   string utvon = Application.dataPath + "/" + "Resources" + "/" + "dresses" + sprite_name;//   D:\posza\Posza\suli\bme\szakirany\onlab\gitlab_cucc\dressapp\Dress App\Assets\Resources\dresses
+            //   Debug.Log(utvon);
             // Sprite s = Resources.Load(utvon, typeof(Sprite)) as Sprite;
             // GetComponent(SpriteRenderer).sprite = line;
             //   GameObject.Find(obj_name).GetComponent().sprite = sprites.GetSprite("Sprite1");
@@ -89,8 +117,8 @@ public class UIManager : MonoBehaviour {
             //  obj.GetComponent<SpriteRenderer>()
 
             // s = Resources.Load<Sprite>(utvon);
-                  s = Resources.Load<Sprite>(sprite_name) as Sprite;
-             SetImage(s);
+            //    s = Resources.Load<Sprite>(sprite_name) as Sprite;/////////////////////////////////
+            //  SetImage(s);
 
             /*
             *
@@ -100,8 +128,8 @@ public class UIManager : MonoBehaviour {
         rend.material.mainTexture = Resources.Load("glass") as Texture;
 
             */
-         /*   Renderer r= obj.GetComponent<Renderer>();
-            r.material.mainTexture = Resources.Load(sprite_name) as Texture;*/
+            /*   Renderer r= obj.GetComponent<Renderer>();
+               r.material.mainTexture = Resources.Load(sprite_name) as Texture;*/
 
         }
 
