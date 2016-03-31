@@ -71,31 +71,45 @@ public class UIManager : MonoBehaviour {
             while (!f.EndOfStream)
             {
                 obj_name = f.ReadLine();
-                Debug.Log(obj_name);
+                Debug.Log("obj name "+obj_name);
 
                 GameObject obj=GameObject.Find(obj_name);
-                ChangeObjectImage(obj);
-
+            //   ChangeObjectImage(obj);
+           
                 sprite_name = f.ReadLine();
-                Debug.Log(sprite_name);
+                Debug.Log("spirete name:"+sprite_name);
 
                 //   Sprite s = Sprite.FindObjectOfType<Sprite>.name(line);
-                string utvon = Application.dataPath + "/" + "Resources" + "/" + "dresses" + sprite_name;//   D:\posza\Posza\suli\bme\szakirany\onlab\gitlab_cucc\dressapp\Dress App\Assets\Resources\dresses
-            Debug.Log(utvon);
+             //   string utvon = Application.dataPath + "/" + "Resources" + "/" + "dresses" + sprite_name;//   D:\posza\Posza\suli\bme\szakirany\onlab\gitlab_cucc\dressapp\Dress App\Assets\Resources\dresses
+         //   Debug.Log(utvon);
             // Sprite s = Resources.Load(utvon, typeof(Sprite)) as Sprite;
             // GetComponent(SpriteRenderer).sprite = line;
             //   GameObject.Find(obj_name).GetComponent().sprite = sprites.GetSprite("Sprite1");
-          //  obj.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(utvon);
+            //  obj.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(utvon);
             //  obj.GetComponent<SpriteRenderer>()
-            s = Resources.Load<Sprite>(utvon);
-            SetImage(s);
+
+            // s = Resources.Load<Sprite>(utvon);
+                  s = Resources.Load<Sprite>(sprite_name) as Sprite;
+             SetImage(s);
+
+            /*
+            *
+            void Start() {
+        GameObject go = GameObject.CreatePrimitive(PrimitiveType.Plane);
+        Renderer rend = go.GetComponent<Renderer>();
+        rend.material.mainTexture = Resources.Load("glass") as Texture;
+
+            */
+         /*   Renderer r= obj.GetComponent<Renderer>();
+            r.material.mainTexture = Resources.Load(sprite_name) as Texture;*/
+
         }
 
-      /*  }
-        catch (Exception e)
-        {
-            Debug.Log(e);
-        }*/
+        /*  }
+          catch (Exception e)
+          {
+              Debug.Log(e);
+          }*/
     }
 
 }

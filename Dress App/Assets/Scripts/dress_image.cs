@@ -14,7 +14,8 @@ public class dress_image : MonoBehaviour {
         GameObject baba = GameObject.Find("baba1");
         this.transform.position = baba.transform.position;
         //c = rend.material.color;
-        kezdoszin = this.GetComponent<Image>().color;
+        kezdoszin = this.GetComponent<Image>().color; //////////////////////majd ha megy a filebol akko tedd vissza
+      
     }
 
     public void ResetColor()
