@@ -6,63 +6,100 @@ using UnityEngine.UI;
 public class PlayerController : NetworkBehaviour {
 
     public Sprite[] skins;
-    public Sprite[] clothes;
+    public Sprite[] dresses;
+    public Sprite[] tops;
+    public Sprite[] jackets;
+    public Sprite[] shoes;
     public int playerSkin;
-    public float speed;
-
     public int cDress, cTop, cJacket, cPants, cShoes;
 
-    void Start()
+    [SyncVar(hook = "OnPlayerSkinChanged")] public int playerSkinSync;
+    [SyncVar(hook = "OnDressChanged")] public int cDressSync;
+    [SyncVar(hook = "OnTopChanged")] public int cTopSync;
+    [SyncVar(hook = "OnJacketChanged")] public int cJacketSync;
+    [SyncVar(hook = "OnShoesChanged")] public int cShoesSync;
+
+    public float speed;
+
+    public override void OnStartLocalPlayer()
     {
-        Sprite s = skins[playerSkin];
-        GetComponent<SpriteRenderer>().sprite = s;
-
-        foreach (Transform t in transform)
-        {
-            if (t.transform.name == "clothes_dress" && cDress > 0)
-            {
-                t.GetComponent<SpriteRenderer>().sprite = clothes[cDress - 1];
-            }
-        }
+        CmdSetPlayerSkin(playerSkin);
+        CmdSetDress(cDress);
+        CmdSetTop(cTop);
+        CmdSetJacket(cJacket);
+        CmdSetShoes(cShoes);
     }
-	
-	void Update () {
 
-        if (!isLocalPlayer)
-        {
-            int skinPreset = GetComponent<PlayerProperties>().getSkinPreset();
-            Sprite s = skins[skinPreset];
-            GetComponent<SpriteRenderer>().sprite = s;
+    [Command]
+    void CmdSetPlayerSkin(int var)
+    {
+        playerSkinSync = var;
+    }
 
-            int dressID = GetComponent<PlayerProperties>().getDress();
-            foreach (Transform t in transform)
-            {
-                if (t.transform.name == "clothes_dress" && dressID > 0)
-                {
-                    t.GetComponent<SpriteRenderer>().sprite = clothes[dressID - 1];
-                }
-            }
-            Debug.Log("OTHER CLIENT: SKIN " + skinPreset + ", DRESS: " + dressID);
-            return;
-        }
+    [Command]
+    void CmdSetDress(int var)
+    {
+        cDressSync = var;
+    }
 
+    [Command]
+    void CmdSetTop(int var)
+    {
+        cTopSync = var;
+    }
 
-        GetComponent<PlayerProperties>().CmdSetSkinPreset(playerSkin);
-        GetComponent<PlayerProperties>().CmdSetDress(cDress);
+    [Command]
+    void CmdSetJacket(int var)
+    {
+        cJacketSync = var;
+    }
 
-        int ls = GetComponent<PlayerProperties>().getSkinPreset();
-        int ld = GetComponent<PlayerProperties>().getDress();
+    [Command]
+    void CmdSetShoes(int var)
+    {
+        cShoesSync = var;
+    }
 
-        Debug.Log("LOCAL CLIENT: SKIN " + ls + ", DRESS: " + ld);
+    public override void OnStartClient()
+    {
+        OnPlayerSkinChanged(playerSkinSync);
+        OnDressChanged(cDressSync);
+        OnTopChanged(cTopSync);
+        OnJacketChanged(cJacketSync);
+        OnShoesChanged(cShoesSync);
+    }
 
-        GetComponent<SpriteRenderer>().sprite = skins[playerSkin];
-        foreach (Transform t in transform)
-        {
-            if (t.transform.name == "clothes_dress" && cDress > 0)
-            {
-                t.GetComponent<SpriteRenderer>().sprite = clothes[cDress - 1];
-            }
-        }
+    void OnPlayerSkinChanged(int val)
+    {
+        GetComponent<SpriteRenderer>().sprite = skins[val];
+    }
+
+    void OnDressChanged(int val)
+    {
+        if (val > 0)
+            transform.Find("clothes_dress").GetComponent<SpriteRenderer>().sprite = dresses[val - 1];
+    }
+
+    void OnTopChanged(int val)
+    {
+        if (val > 0)
+            transform.Find("clothes_top").GetComponent<SpriteRenderer>().sprite = tops[val - 1];
+    }
+
+    void OnJacketChanged(int val)
+    {
+        if (val > 0)
+            transform.Find("clothes_jacket").GetComponent<SpriteRenderer>().sprite = jackets[val - 1];
+    }
+
+    void OnShoesChanged(int val)
+    {
+        if (val > 0)
+            transform.Find("clothes_shoes").GetComponent<SpriteRenderer>().sprite = shoes[val - 1];
+    }
+
+    void Update () {
+        if (!isLocalPlayer) return;
 
         speed = 10;
         InputMovement();
