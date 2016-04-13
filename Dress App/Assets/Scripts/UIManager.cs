@@ -9,6 +9,11 @@ public class UIManager : MonoBehaviour {
     private Color32 objectColor;
     private Sprite objectImage;
 
+   // public RawImage img;
+    public GameObject b;
+    public Transform buttoncontainer;
+    public Sprite ssprite;
+
     public void DisableBool(Animator anim)
     {
         anim.SetBool("isDisplayed", false);
@@ -95,60 +100,90 @@ public class UIManager : MonoBehaviour {
         //////////////////////////////////////////////////////////////
         f.Close();
     }
+    
+    public void gomb_filebol()
+    {
+        
+       // Texture textu = Resources.Load<Texture>("bj");
+        GameObject go = Instantiate(b) as GameObject;
+        go.transform.SetParent(buttoncontainer);
+        //  go.GetComponent<RawImage>().texture = textu;
+        SetImage(ssprite);
+        ChangeObjectImage(go);
+
+
+
+    /*   Vector2 scrollPosition;
+       string log;
+       float scaleX, scaleY, btOffsetX, btOffsetY, btWidth, btHeight;
+       scaleX = Screen.width / 1280f;
+       scaleY = Screen.height / 720f;
+       btOffsetX = 950;
+       btOffsetY = 620;
+       btWidth = 300;
+       btHeight = 50;
+
+   GameObject go = GameObject.Find("gomb");
+   Vector3 v = new Vector3(10,10,0);
+   GameObject goClone = (GameObject)Instantiate(go, transform.position, transform.rotation);
+   goClone.AddComponent<RectTransform>();
+   RectTransform rt = goClone.GetComponent<RectTransform>();
+  // rt.rect.width = 100;
+  // rt.rect.height = 100;
+   goClone.layer = 7;
+   goClone.AddComponent<Image>();
+
+   Sprite s = new Sprite();
+   s = Resources.Load("bj", typeof(Sprite)) as Sprite;
+   SetImage(s);
+
+   //filebol kiolvasott objektum kepoet atallitja
+   ChangeObjectImage(goClone);
+
+   /*    if (GUI.Button(new Rect(btOffsetX * scaleX, btOffsetY * scaleY, btWidth * scaleX, btHeight * scaleY), "Clear log"))
+       {
+           log = "Debug Console Output \n ------------------------------ \n";
+       }*/
     /*
-        public void gomb_filebol()
-        {
-        /*    Vector2 scrollPosition;
-            string log;
-            float scaleX, scaleY, btOffsetX, btOffsetY, btWidth, btHeight;
-            scaleX = Screen.width / 1280f;
-            scaleY = Screen.height / 720f;
-            btOffsetX = 950;
-            btOffsetY = 620;
-            btWidth = 300;
-            btHeight = 50;
+     Button buttonPrefab = UnityEngine.Resources.Load<Button>("UI/Button");
+Button instance = (Button)UnityEngine.Object.Instantiate(buttonPrefab);
+    */
 
-            if (GUI.Button(new Rect(btOffsetX * scaleX, btOffsetY * scaleY, btWidth * scaleX, btHeight * scaleY), "Clear log"))
-            {
-                log = "Debug Console Output \n ------------------------------ \n";
-            }*/
+    /*      Button b = UnityEngine.Resources.Load<Button>("UI/Button");//b miért null
+          Button ib = (Button)UnityEngine.Object.Instantiate(b);
+          GameObject panelObject = GameObject.Find("image_also");
+          float h = 10.0f;
+          float w = 10.0f;
+          float y = 0.0f;
+          float x = 0.0f;
 
-    ///     //Button b = UnityEngine.Resources.Load<Button>("UI/Button");//b miért null
-    // Button ib = (Button)UnityEngine.Object.Instantiate(b);
-    /*     GameObject panelObject = GameObject.Find("image_also");
-         float h = 10.0f;
-         float w = 10.0f;
-         float y = 0.0f;
-         float x = 0.0f;
-
-         GameObject buttonObject = new GameObject("Button");
-         buttonObject.transform.SetParent(panelObject.transform);
-         buttonObject.layer = 6;
+          GameObject buttonObject = new GameObject("Button");
+          buttonObject.transform.SetParent(panelObject.transform);
+          buttonObject.layer = 6;
 
 
-          RectTransform trans = buttonObject.AddComponent<RectTransform>();
-          SetSize(trans, new Vector2(w, h));
-  /* trans.anchoredPosition3D = new Vector3(0, 0, 0);
-   trans.anchoredPosition = new Vector2(x, y);
-   trans.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-   trans.localPosition.Set(0, 0, 0);
-   buttonObject.AddComponent<CanvasRenderer>();*/
-    //
-    /*   float f = float.Parse("-0.75");
-       buttonObject.transform.position = new Vector3(1,f,0);
-       buttonObject.transform.position = panelObject.transform.position;     
+           RectTransform trans = buttonObject.AddComponent<RectTransform>();
+           SetSize(trans, new Vector2(w, h));
+           trans.anchoredPosition3D = new Vector3(0, 0, 0);
+           trans.anchoredPosition = new Vector2(x, y);
+           trans.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+           trans.localPosition.Set(0, 0, 0);
+           buttonObject.AddComponent<CanvasRenderer>();
+           float f = float.Parse("-0.75");
+           buttonObject.transform.position = new Vector3(1,f,0);
+           buttonObject.transform.position = panelObject.transform.position;     
 
 
-       Image image = buttonObject.AddComponent<Image>();
-       Texture2D tex = Resources.Load<Texture2D>("bj");
-       image.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+        Image image = buttonObject.AddComponent<Image>();
+        Texture2D tex = Resources.Load<Texture2D>("bj");
+        image.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
 
-       Button button = buttonObject.AddComponent<Button>();
- /////     button.interactable = true;
- //button.onClick.AddListener(eventListner);
+        Button button = buttonObject.AddComponent<Button>();*/
+    //   button.interactable = true;
+    //button.onClick.AddListener(eventListner);
 
- /**
-  1 GameObject buttonObject = new GameObject("Button");
+    /**
+     1 GameObject buttonObject = new GameObject("Button");
 2 buttonObject.transform.SetParent(panelObject.transform);
 3 buttonObject.layer = LayerUI;
 
@@ -175,7 +210,7 @@ Creating the actual button, eventListner is of type UnityAction.
 1 Button button = buttonObject.AddComponent<Button>();
 2 button.interactable = true;
 3 button.onClick.AddListener(eventListner);
- */
+    */
 
 
     /**
@@ -188,11 +223,10 @@ Creating the actual button, eventListner is of type UnityAction.
      Button instance = (Button)UnityEngine.Object.Instantiate(buttonPrefab);
 
     button.AddComponent<Image>();
-    button.transform.parent = canvas.transform;
+    button.transform.parent = canvas.transform;*/
 
-    */
 
-    /*   }
+}
        private static void SetSize(RectTransform trans, Vector2 size)
        {
            Vector2 currSize = trans.rect.size;
@@ -203,7 +237,7 @@ Creating the actual button, eventListner is of type UnityAction.
            trans.offsetMax = trans.offsetMax +
                                      new Vector2(sizeDiff.x * (1.0f - trans.pivot.x),
                                          sizeDiff.y * (1.0f - trans.pivot.y));
-       }*/
+       }
     /* void OnGUI()
      {
          string log;
