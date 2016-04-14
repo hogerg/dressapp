@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour {
     private Sprite[] babak;
     private GameObject b;
     private int n;
+   
     /*  public GameObject b;
       public Transform buttoncontainer;
       public Sprite ssprite;*/
@@ -223,5 +224,73 @@ public class UIManager : MonoBehaviour {
         go.transform.position = buttoncontainer.transform.position;
 
     }
-       
+
+    void OnApplicationQuit()
+    {
+
+        //save();
+
+    }
+
+    private void save()
+    {
+        string FILE_NAME = "save.txt";
+
+        string si1 = "image_cipo";
+        GameObject go1 = GameObject.Find(si1);
+        string ss1 = go1.GetComponent<Image>().sprite.name;//valamiért nem találja a spritetot, pedig van
+
+        string si2 = "image_also";
+        GameObject go2 = GameObject.Find(si2);
+        string ss2 = go2.GetComponent<Sprite>().name;
+
+        string si3 = "image_dzseki";
+        GameObject go3 = GameObject.Find(si3);
+        string ss3 = go3.GetComponent<Sprite>().name;
+
+        string si4 = "image_cipo";
+        GameObject go4 = GameObject.Find(si4);
+        string ss4 = go4.GetComponent<Sprite>().name;
+
+        string si5 = "image_felso";
+        GameObject go5 = GameObject.Find(si5);
+        string ss5 = go5.GetComponent<Sprite>().name;
+
+        string si6 = "image_dress";
+        GameObject go6 = GameObject.Find(si6);
+        string ss6 = go6.GetComponent<Sprite>().name;
+
+        //a baba még nem így van megírva TODO
+        /*   string si7 = "image_baba";
+           GameObject go7 = GameObject.Find(si7);
+           string ss7 = go7.GetComponent<Sprite>().name;*/
+
+        using (StreamWriter sw = File.CreateText(FILE_NAME))
+        {
+
+            sw.WriteLine(si1);
+            sw.WriteLine(ss1);
+
+            sw.WriteLine(si2);
+            sw.WriteLine(ss2);
+
+            sw.WriteLine(si3);
+            sw.WriteLine(ss3);
+
+            sw.WriteLine(si4);
+            sw.WriteLine(ss4);
+
+            sw.WriteLine(si5);
+            sw.WriteLine(ss5);
+
+            sw.WriteLine(si6);
+            sw.WriteLine(ss6);
+
+            /*     sw.WriteLine(si7);
+                 sw.WriteLine(ss7);*/
+
+            sw.Close();
+        }
+        //}
+    }
 }
