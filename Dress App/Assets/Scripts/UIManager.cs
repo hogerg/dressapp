@@ -8,11 +8,17 @@ public class UIManager : MonoBehaviour {
 
     private Color32 objectColor;
     private Sprite objectImage;
-
-   // public RawImage img;
-    public GameObject b;
-    public Transform buttoncontainer;
-    public Sprite ssprite;
+    private Sprite[] ruhak;
+    private Sprite[] felsok;
+    private Sprite[] dzsekik;
+    private Sprite[] alsok=new Sprite[10];
+    private Sprite[] cipok;
+    private Sprite[] babak;
+    private GameObject b;
+    private int n;
+    /*  public GameObject b;
+      public Transform buttoncontainer;
+      public Sprite ssprite;*/
 
     public void DisableBool(Animator anim)
     {
@@ -54,11 +60,106 @@ public class UIManager : MonoBehaviour {
     }
 
 
-    public void ChangeObjectImage(GameObject obj)//Ez a objet, aminek a képét megváltoztatod
+    public void ChangeObjectImage(GameObject obj)//Ez a objekt, aminek a képét megváltoztatod
     {
         Image im = GameObject.Find(obj.name).GetComponent<Image>();
         im.sprite = objectImage;
 
+    }
+
+    void Start()
+    {
+        // gomb_filebol();
+        b = GameObject.Find("sampleButton");
+        ultimateDynamicAruFeltoltes();
+    }
+
+    public void ultimateDynamicAruFeltoltes()
+    {
+        //kell 7 file, azokbol kiolvasunk a 7 tombbe lehet kulon ciklus kene ra param(tomb, string)
+        //fileReading(alsok,"alsok.txt");//teszteljunk 1 tombbel
+        //utana meg letre kell hozni a gombokat 7 for erre is lehet kulon eljaras param(tomb,panel name)->talan azt a 3 valtozot globalisnak kene
+        Sprite[] sps = Resources.LoadAll<Sprite>("alsok");
+        buttonCreating(sps, "a_Panel", "image_also");//ez a 2 sor létrehozza a tömböt spriteostul és fel bassza őket a panelra, meg scriptet rendel a buttonokhoz.
+        //ebből a 2ből kell 7 db + a babákhoz más script kell.
+        //rendezni kell a projektben a ruhakat, hogy konnyű legyen beolvasni
+        //meg kell nézni, hogy Hodány részét hogyan lehet hozzá építeni. esetleg lehet-e olyan függvényt hozzá adni ami másik scriptbe van
+    }
+
+    private void buttonCreating(Sprite[] sprites, string panelName, string imageName)//annak a panelnak a neve, ahova akarjuk tenni
+    {
+        GameObject container = GameObject.Find(panelName);
+        Transform buttoncontainer = container.transform;
+        
+
+        int i = 0;
+       // foreach(Sprite s in sprites)
+       while (i<sprites.Length)
+        {
+            // Texture textu = Resources.Load<Texture>("bj");
+            GameObject go = Instantiate(b) as GameObject;
+            go.transform.SetParent(buttoncontainer);
+
+            //  go.GetComponent<RawImage>().texture = textu;
+            Sprite tmp = (Sprite)(sprites[i]);
+            //SetImage(tmp);
+
+         //   ChangeObjectImage(go);
+
+            //Image im = GameObject.Find(go.name).GetComponent<Image>();
+           // im.sprite = tmp;
+            go.GetComponent<Image>().sprite = tmp;
+
+
+        // GameObject baba = GameObject.Find("baba1");
+        go.transform.position = buttoncontainer.transform.position;
+            Debug.Log(i.ToString());
+            Debug.Log(tmp.ToString());
+
+            go.GetComponent<Button>().onClick.AddListener(()=>on(imageName,tmp));
+
+            i++;
+        }
+       
+    }
+
+   private void on(string s, Sprite spr)
+    {
+        GameObject tmp = GameObject.Find(s);
+        tmp.GetComponent<Image>().sprite = spr;
+    } 
+
+    //itt a filename->valami.txt utvonal nelkul
+    private void fileReading(Sprite [] sprites, string filename)
+    {
+        
+        string sprite_name = "";
+      //  Sprite s = new Sprite();
+        GameObject obj = new GameObject();
+        n = 0;
+
+        string fileName = Application.dataPath + "/" + filename;
+        Debug.Log(fileName);
+        StreamReader f = new StreamReader(fileName, Encoding.Default);
+
+        int i = 0;
+        //filebol beolvas
+        while (!f.EndOfStream)
+        {
+
+            string tmp = f.ReadLine();
+            //melyik kepre bj(farmer cucc)
+            sprite_name = Application.dataPath+ "/Resources/dresses/" + tmp;
+            Debug.Log("spirte name:" + sprite_name);
+            Debug.Log(i.ToString());
+
+            //oke, na most beolvastuk a file-t es benne van a megadott tomben(kategoriak)
+            sprites[i] = Resources.Load(sprite_name, typeof(Sprite)) as Sprite;
+
+            n++;
+            i++;
+        }
+        f.Close();
     }
 
     public void filebol_olvasas()
@@ -68,6 +169,7 @@ public class UIManager : MonoBehaviour {
         string sprite_name="";
         Sprite s = new Sprite();
         GameObject obj = new GameObject();
+        
 
         string fileName = Application.dataPath + "/" + "file.txt";
         Debug.Log(fileName);
@@ -84,6 +186,7 @@ public class UIManager : MonoBehaviour {
             //melyik kepre bj(farmer cucc)
             sprite_name = f.ReadLine();
             Debug.Log("spirete name:" + sprite_name);
+            
         }
 
         //megkeresi a filebol kiolvasott nevu spriteot, beallitja azt
@@ -100,176 +203,25 @@ public class UIManager : MonoBehaviour {
         //////////////////////////////////////////////////////////////
         f.Close();
     }
-    
+
+
     public void gomb_filebol()
     {
-        
-       // Texture textu = Resources.Load<Texture>("bj");
+
+        GameObject b = GameObject.Find("also_gomb (1)") ;
+        GameObject container = GameObject.Find("a_Panel");
+        Transform buttoncontainer= container.transform;
+        Sprite ssprite= Resources.Load("bj", typeof(Sprite)) as Sprite;
+
+        // Texture textu = Resources.Load<Texture>("bj");
         GameObject go = Instantiate(b) as GameObject;
         go.transform.SetParent(buttoncontainer);
         //  go.GetComponent<RawImage>().texture = textu;
         SetImage(ssprite);
         ChangeObjectImage(go);
+        // GameObject baba = GameObject.Find("baba1");
+        go.transform.position = buttoncontainer.transform.position;
 
-
-
-    /*   Vector2 scrollPosition;
-       string log;
-       float scaleX, scaleY, btOffsetX, btOffsetY, btWidth, btHeight;
-       scaleX = Screen.width / 1280f;
-       scaleY = Screen.height / 720f;
-       btOffsetX = 950;
-       btOffsetY = 620;
-       btWidth = 300;
-       btHeight = 50;
-
-   GameObject go = GameObject.Find("gomb");
-   Vector3 v = new Vector3(10,10,0);
-   GameObject goClone = (GameObject)Instantiate(go, transform.position, transform.rotation);
-   goClone.AddComponent<RectTransform>();
-   RectTransform rt = goClone.GetComponent<RectTransform>();
-  // rt.rect.width = 100;
-  // rt.rect.height = 100;
-   goClone.layer = 7;
-   goClone.AddComponent<Image>();
-
-   Sprite s = new Sprite();
-   s = Resources.Load("bj", typeof(Sprite)) as Sprite;
-   SetImage(s);
-
-   //filebol kiolvasott objektum kepoet atallitja
-   ChangeObjectImage(goClone);
-
-   /*    if (GUI.Button(new Rect(btOffsetX * scaleX, btOffsetY * scaleY, btWidth * scaleX, btHeight * scaleY), "Clear log"))
-       {
-           log = "Debug Console Output \n ------------------------------ \n";
-       }*/
-    /*
-     Button buttonPrefab = UnityEngine.Resources.Load<Button>("UI/Button");
-Button instance = (Button)UnityEngine.Object.Instantiate(buttonPrefab);
-    */
-
-    /*      Button b = UnityEngine.Resources.Load<Button>("UI/Button");//b miért null
-          Button ib = (Button)UnityEngine.Object.Instantiate(b);
-          GameObject panelObject = GameObject.Find("image_also");
-          float h = 10.0f;
-          float w = 10.0f;
-          float y = 0.0f;
-          float x = 0.0f;
-
-          GameObject buttonObject = new GameObject("Button");
-          buttonObject.transform.SetParent(panelObject.transform);
-          buttonObject.layer = 6;
-
-
-           RectTransform trans = buttonObject.AddComponent<RectTransform>();
-           SetSize(trans, new Vector2(w, h));
-           trans.anchoredPosition3D = new Vector3(0, 0, 0);
-           trans.anchoredPosition = new Vector2(x, y);
-           trans.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-           trans.localPosition.Set(0, 0, 0);
-           buttonObject.AddComponent<CanvasRenderer>();
-           float f = float.Parse("-0.75");
-           buttonObject.transform.position = new Vector3(1,f,0);
-           buttonObject.transform.position = panelObject.transform.position;     
-
-
-        Image image = buttonObject.AddComponent<Image>();
-        Texture2D tex = Resources.Load<Texture2D>("bj");
-        image.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
-
-        Button button = buttonObject.AddComponent<Button>();*/
-    //   button.interactable = true;
-    //button.onClick.AddListener(eventListner);
-
-    /**
-     1 GameObject buttonObject = new GameObject("Button");
-2 buttonObject.transform.SetParent(panelObject.transform);
-3 buttonObject.layer = LayerUI;
-
-
-Now lets create the RectTransform and position our button accordingly.
-
-1 RectTransform trans = buttonObject.AddComponent<RectTransform>();
-2 SetSize(trans, new Vector2(w, h));
-3 trans.anchoredPosition3D = new Vector3(0, 0, 0);
-4 trans.anchoredPosition = new Vector2(x, y);
-5 trans.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-6 trans.localPosition.Set(0, 0, 0);
-7 
-8 buttonObject.AddComponent<CanvasRenderer>();
-
-Setting background image for button will be similar to that of panel's. The png file button_bkg.png should be at Assets\Resources as before.
-
-1 Image image = buttonObject.AddComponent<Image>();
-2 Texture2D tex = Resources.Load<Texture2D>("button_bkg");
-3 image.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
-
-Creating the actual button, eventListner is of type UnityAction.
-
-1 Button button = buttonObject.AddComponent<Button>();
-2 button.interactable = true;
-3 button.onClick.AddListener(eventListner);
-    */
-
-
-    /**
-    *
-     GameObject newButton = Instantiate(button) as GameObject;
-    newButton.transform.SetParent(newCanvas.transform, false);
-
-
-    Button buttonPrefab = UnityEngine.Resources.Load<Button>("UI/Button");
-     Button instance = (Button)UnityEngine.Object.Instantiate(buttonPrefab);
-
-    button.AddComponent<Image>();
-    button.transform.parent = canvas.transform;*/
-
-
-}
-       private static void SetSize(RectTransform trans, Vector2 size)
-       {
-           Vector2 currSize = trans.rect.size;
-           Vector2 sizeDiff = size - currSize;
-           trans.offsetMin = trans.offsetMin -
-                                     new Vector2(sizeDiff.x * trans.pivot.x,
-                                         sizeDiff.y * trans.pivot.y);
-           trans.offsetMax = trans.offsetMax +
-                                     new Vector2(sizeDiff.x * (1.0f - trans.pivot.x),
-                                         sizeDiff.y * (1.0f - trans.pivot.y));
-       }
-    /* void OnGUI()
-     {
-         string log;
-         float scaleX, scaleY, btOffsetX, btOffsetY, btWidth, btHeight;
-
-         scaleX = Screen.width / 1280f;
-         scaleY = Screen.height / 720f;
-         btOffsetX = 950;
-         btOffsetY = 620;
-         btWidth = 300;
-         btHeight = 50;
-
-         GUI.BeginGroup(new Rect(scaleX * 10, scaleY * 10, scaleX * 1200, scaleY * 600));
-       //  scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(scaleX * 1180), GUILayout.Height(scaleY * 580));
-    //     GUILayout.Label(log);
-         GUILayout.EndScrollView();
-         GUI.EndGroup();
-
-         if (GUI.Button(new Rect(btOffsetX * scaleX, btOffsetY * scaleY, btWidth * scaleX, btHeight * scaleY), "Clear log"))
-         {
-             log = "Debug Console Output \n ------------------------------ \n";
-         }
-     }*/
-
-  /*  void OnGUI()
-    {
-        //Here if the player hit the button Start will trigger an action
-        if (GUI.Button(new Rect(Screen.width / 2, Screen.height / 2, 100, 25), "Start Game!"))
-        {
-            //Here we call the method who will call the level named "LevelName"
-         //   Application.LoadLevel("LevelName");
-        }
-
-    }*/
+    }
+       
 }
