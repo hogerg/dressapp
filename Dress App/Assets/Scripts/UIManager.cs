@@ -78,10 +78,12 @@ public class UIManager : MonoBehaviour {
     public void ultimateDynamicAruFeltoltes()
     {
         //kell 7 file, azokbol kiolvasunk a 7 tombbe lehet kulon ciklus kene ra param(tomb, string)
-        //fileReading(alsok,"alsok.txt");//teszteljunk 1 tombbel
+        fileReading(alsok,"alsok.txt", "alsok/");//teszteljunk 1 tombbel
+        
         //utana meg letre kell hozni a gombokat 7 for erre is lehet kulon eljaras param(tomb,panel name)->talan azt a 3 valtozot globalisnak kene
-        Sprite[] sps = Resources.LoadAll<Sprite>("alsok");
-        buttonCreating(sps, "a_Panel", "image_also");//ez a 2 sor létrehozza a tömböt spriteostul és fel bassza őket a panelra, meg scriptet rendel a buttonokhoz.
+        
+        //Sprite[] sps = Resources.LoadAll<Sprite>("alsok");
+        buttonCreating(alsok, "a_Panel", "image_also");//ez a 2 sor létrehozza a tömböt spriteostul és fel bassza őket a panelra, meg scriptet rendel a buttonokhoz.
         //ebből a 2ből kell 7 db + a babákhoz más script kell.
         //rendezni kell a projektben a ruhakat, hogy konnyű legyen beolvasni
         //meg kell nézni, hogy Hodány részét hogyan lehet hozzá építeni. esetleg lehet-e olyan függvényt hozzá adni ami másik scriptbe van
@@ -95,7 +97,7 @@ public class UIManager : MonoBehaviour {
 
         int i = 0;
        // foreach(Sprite s in sprites)
-       while (i<sprites.Length)
+       while (i<n)
         {
             // Texture textu = Resources.Load<Texture>("bj");
             GameObject go = Instantiate(b) as GameObject;
@@ -112,12 +114,59 @@ public class UIManager : MonoBehaviour {
             go.GetComponent<Image>().sprite = tmp;
 
 
-        // GameObject baba = GameObject.Find("baba1");
-        go.transform.position = buttoncontainer.transform.position;
+            // GameObject baba = GameObject.Find("baba1");
+            go.transform.position = buttoncontainer.transform.position;
             Debug.Log(i.ToString());
-            Debug.Log(tmp.ToString());
+          //  Debug.Log(tmp.name);
 
-            go.GetComponent<Button>().onClick.AddListener(()=>on(imageName,tmp));
+            go.GetComponent<Button>().onClick.AddListener(()=> on(imageName,tmp));
+            /*     GameObject p = (GameObject.Find("Player"));
+
+                 go.GetComponent<Button>().onClick.AddListener(() => p.setJacket(1));*/
+           GameObject p = (GameObject)Resources.Load("player", typeof(GameObject));
+
+            switch (imageName)
+            {
+                case ("image_also"):
+                    {
+                        go.GetComponent<Button>().onClick.AddListener(() => p.GetComponent<PlayerController>().setPants(1));
+                        go.GetComponent<Button>().onClick.AddListener(() => p.GetComponent<PlayerController>().setDress(0));
+                    }
+                    break;
+                case ("image_cipo"):
+                    {
+                        go.GetComponent<Button>().onClick.AddListener(() => p.GetComponent<PlayerController>().setShoes(1));
+                    }
+                    break;
+                case ("image_dzseki"):
+                    {
+                        go.GetComponent<Button>().onClick.AddListener(() => p.GetComponent<PlayerController>().setJacket(1));
+                    }
+                    break;
+                case ("image_felso"):
+                    {
+                        go.GetComponent<Button>().onClick.AddListener(() => p.GetComponent<PlayerController>().setTop(1));
+                        go.GetComponent<Button>().onClick.AddListener(() => p.GetComponent<PlayerController>().setDress(0));
+                    }
+                    break;
+                case ("image_dress"):
+                    {
+                        go.GetComponent<Button>().onClick.AddListener(() => p.GetComponent<PlayerController>().setPants(0));
+                        go.GetComponent<Button>().onClick.AddListener(() => p.GetComponent<PlayerController>().setDress(1));
+                        go.GetComponent<Button>().onClick.AddListener(() => p.GetComponent<PlayerController>().setTop(0));
+                    }
+                    break;
+                /*case ("image_baba"):
+                    {
+                        go.GetComponent<Button>().onClick.AddListener(() => p.GetComponent<PlayerController>().setPants(1));
+                        go.GetComponent<Button>().onClick.AddListener(() => p.GetComponent<PlayerController>().setDress(0));
+                    }
+                    break;*/
+            }
+
+            
+            
+
 
             i++;
         }
@@ -131,11 +180,12 @@ public class UIManager : MonoBehaviour {
     } 
 
     //itt a filename->valami.txt utvonal nelkul
-    private void fileReading(Sprite [] sprites, string filename)
+    private void fileReading(Sprite [] sprites, string filename, string sprite_place)
     {
         
         string sprite_name = "";
-      //  Sprite s = new Sprite();
+
+        //  Sprite s = new Sprite();
         GameObject obj = new GameObject();
         n = 0;
 
@@ -150,7 +200,10 @@ public class UIManager : MonoBehaviour {
 
             string tmp = f.ReadLine();
             //melyik kepre bj(farmer cucc)
-            sprite_name = Application.dataPath+ "/Resources/dresses/" + tmp;
+            
+            sprite_name = sprite_place + tmp;
+            
+            //sprite_name = tmp;
             Debug.Log("spirte name:" + sprite_name);
             Debug.Log(i.ToString());
 
