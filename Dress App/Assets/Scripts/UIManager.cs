@@ -93,12 +93,36 @@ public class UIManager : MonoBehaviour {
     {
         GameObject container = GameObject.Find(panelName);
         Transform buttoncontainer = container.transform;
-        
+
+        //oszlopba rendezosdi
+        RectTransform rowRectTransform = b.GetComponent<RectTransform>();
+        RectTransform containerRectTransform = container.GetComponent<RectTransform>();
+        int oszlopszam = 1;
+
+        float width = containerRectTransform.rect.width / oszlopszam;
+        float ratio = width / rowRectTransform.rect.width;
+        float height = rowRectTransform.rect.height * ratio;
+        int rowCount = n / oszlopszam;
+        if (n % rowCount > 0)
+            rowCount++;
+
+        float scrollHeight = height * rowCount;
+        containerRectTransform.offsetMin = new Vector2(containerRectTransform.offsetMin.x, -scrollHeight / 2);
+        containerRectTransform.offsetMax = new Vector2(containerRectTransform.offsetMax.x, scrollHeight / 2);
+        //
 
         int i = 0;
+        int j = 0;
        // foreach(Sprite s in sprites)
        while (i<n)
         {
+            //oszlopbarendez
+
+            if (i % oszlopszam == 0)
+                j++;
+
+            //
+
             // Texture textu = Resources.Load<Texture>("bj");
             GameObject go = Instantiate(b) as GameObject;
             go.transform.SetParent(buttoncontainer);
@@ -164,10 +188,22 @@ public class UIManager : MonoBehaviour {
                     break;*/
             }
 
-            
-            
+            //oszlop cucc
 
+            go.transform.parent = container.transform;
 
+            //move and size the new item
+            RectTransform rectTransform = go.GetComponent<RectTransform>();
+
+            float x = -containerRectTransform.rect.width / 2 + width * (i % oszlopszam);
+            float y = containerRectTransform.rect.height / 2 - height * j;
+            rectTransform.offsetMin = new Vector2(x, y);
+
+            x = rectTransform.offsetMin.x + width;
+            y = rectTransform.offsetMin.y + height;
+            rectTransform.offsetMax = new Vector2(x, y);
+
+            //
             i++;
         }
        
