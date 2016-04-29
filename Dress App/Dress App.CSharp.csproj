@@ -90,6 +90,10 @@
   <ItemGroup>
     <None Include="Assets\StreamingAssets\build_info.txt" />
     <None Include="Assets\alsok.txt" />
+    <None Include="Assets\cipok.txt" />
+    <None Include="Assets\dzsekik.txt" />
+    <None Include="Assets\felsok.txt" />
+    <None Include="Assets\ruhak.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

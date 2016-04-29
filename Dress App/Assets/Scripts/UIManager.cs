@@ -8,11 +8,11 @@ public class UIManager : MonoBehaviour {
 
     private Color32 objectColor;
     private Sprite objectImage;
-    private Sprite[] ruhak;
-    private Sprite[] felsok;
-    private Sprite[] dzsekik;
+    private Sprite[] ruhak = new Sprite[10];
+    private Sprite[] felsok = new Sprite[10];
+    private Sprite[] dzsekik = new Sprite[10];
     private Sprite[] alsok=new Sprite[10];
-    private Sprite[] cipok;
+    private Sprite[] cipok=new Sprite[10];
     private Sprite[] babak;
     private GameObject b;
     private int n;
@@ -87,6 +87,21 @@ public class UIManager : MonoBehaviour {
         //ebből a 2ből kell 7 db + a babákhoz más script kell.
         //rendezni kell a projektben a ruhakat, hogy konnyű legyen beolvasni
         //meg kell nézni, hogy Hodány részét hogyan lehet hozzá építeni. esetleg lehet-e olyan függvényt hozzá adni ami másik scriptbe van
+
+        fileReading(cipok, "cipok.txt", "cipok/");
+        buttonCreating(cipok, "c_Panel", "image_cipo");
+
+        fileReading(dzsekik, "dzsekik.txt", "dzsekik/");
+        buttonCreating(dzsekik, "dzs_Panel", "image_dzseki");//valamiért leveszi a ruhát, ha a ruha után teszed rá
+                                                             /*GameObject g = GameObject.Find("image_dzseki");
+                                                             g.layer = 6;*/
+
+        fileReading(felsok, "felsok.txt", "felsok/");
+        buttonCreating(felsok, "f_Panel", "image_felso");
+
+        fileReading(ruhak, "ruhak.txt", "dresses/");
+        buttonCreating(ruhak, "d_Panel", "image_dress");//ezek meg nem veszik le a gatyát/felsőt
+
     }
 
     private void buttonCreating(Sprite[] sprites, string panelName, string imageName)//annak a panelnak a neve, ahova akarjuk tenni
@@ -246,6 +261,7 @@ public class UIManager : MonoBehaviour {
             //oke, na most beolvastuk a file-t es benne van a megadott tomben(kategoriak)
             sprites[i] = Resources.Load(sprite_name, typeof(Sprite)) as Sprite;
 
+            
             n++;
             i++;
         }
