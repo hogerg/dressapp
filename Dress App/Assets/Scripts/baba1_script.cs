@@ -14,6 +14,8 @@ public class baba1_script : MonoBehaviour {
         this.transform.position = new Vector3(1, f, 0); 
     }
 
+    
+
 	// Use this for initialization
 	void Start () {
         this.enabled = false;
@@ -24,4 +26,5 @@ public class baba1_script : MonoBehaviour {
 	void Update () {
 	
 	}
+   
 }

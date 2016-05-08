@@ -72,8 +72,10 @@ public class UIManager : MonoBehaviour {
     {
         // gomb_filebol();
         b = GameObject.Find("sampleButton");
-        ultimateDynamicAruFeltoltes();
+        ultimateDynamicAruFeltoltes();       
+        load();
     }
+
 
     public void ultimateDynamicAruFeltoltes()
     {
@@ -333,7 +335,43 @@ public class UIManager : MonoBehaviour {
     void OnApplicationQuit()
     {
 
-        //save();
+        save();
+
+    }
+
+    private void load()
+    {
+        string fileName =  "save.txt";
+     
+        StreamReader f = new StreamReader(fileName, Encoding.Default);
+
+        //filebol beolvas
+        while (!f.EndOfStream)
+        {
+            string hely = f.ReadLine();
+            string ima = f.ReadLine();
+           // Debug.Log(ima);
+            GameObject go = GameObject.Find(ima);
+            string spri = f.ReadLine();
+            Debug.Log(spri);
+            if (spri.CompareTo("ures") == 0)
+            {
+             //   spri = "Resources/" +spri;
+                Sprite s = Resources.Load(spri, typeof(Sprite)) as Sprite;//itt nem elég a sprite neve, kelll hogy gatya vagy mi
+                SetImage(s);
+            }
+
+            else
+            {
+                spri = hely + spri;
+                Sprite s = Resources.Load(spri, typeof(Sprite)) as Sprite;//itt nem elég a sprite neve, kelll hogy gatya vagy mi
+                SetImage(s);
+            }
+            Debug.Log(spri);
+            ChangeObjectImage(go);
+        }
+
+        f.Close();
 
     }
 
@@ -341,29 +379,31 @@ public class UIManager : MonoBehaviour {
     {
         string FILE_NAME = "save.txt";
 
-        string si1 = "image_cipo";
+     /*   string si1 = "image_cipo";
         GameObject go1 = GameObject.Find(si1);
-        string ss1 = go1.GetComponent<Image>().sprite.name;//valamiért nem találja a spritetot, pedig van
+        //string ss1 = go1.GetComponent<Image>().sprite.name;//valamiért nem találja a spritetot, pedig van
+        Sprite ss1 = go1.GetComponent<Image>().sprite;*/
+        
 
         string si2 = "image_also";
         GameObject go2 = GameObject.Find(si2);
-        string ss2 = go2.GetComponent<Sprite>().name;
+        Sprite ss2 = go2.GetComponent<Image>().sprite;
 
         string si3 = "image_dzseki";
         GameObject go3 = GameObject.Find(si3);
-        string ss3 = go3.GetComponent<Sprite>().name;
+        Sprite ss3 = go3.GetComponent<Image>().sprite;
 
         string si4 = "image_cipo";
         GameObject go4 = GameObject.Find(si4);
-        string ss4 = go4.GetComponent<Sprite>().name;
+        Sprite ss4 = go4.GetComponent<Image>().sprite;
 
         string si5 = "image_felso";
         GameObject go5 = GameObject.Find(si5);
-        string ss5 = go5.GetComponent<Sprite>().name;
+        Sprite ss5 = go5.GetComponent<Image>().sprite;
 
         string si6 = "image_dress";
         GameObject go6 = GameObject.Find(si6);
-        string ss6 = go6.GetComponent<Sprite>().name;
+        Sprite ss6 = go6.GetComponent<Image>().sprite;
 
         //a baba még nem így van megírva TODO
         /*   string si7 = "image_baba";
@@ -372,24 +412,29 @@ public class UIManager : MonoBehaviour {
 
         using (StreamWriter sw = File.CreateText(FILE_NAME))
         {
-
+           /* sw.WriteLine("cipok/");
             sw.WriteLine(si1);
-            sw.WriteLine(ss1);
+            sw.WriteLine(ss1.name);*/
 
+            sw.WriteLine("alsok/");
             sw.WriteLine(si2);
-            sw.WriteLine(ss2);
+            sw.WriteLine(ss2.name);
 
+            sw.WriteLine("dzsekik/");
             sw.WriteLine(si3);
-            sw.WriteLine(ss3);
+            sw.WriteLine(ss3.name);
 
+            sw.WriteLine("cipok/");
             sw.WriteLine(si4);
-            sw.WriteLine(ss4);
+            sw.WriteLine(ss4.name);
 
+            sw.WriteLine("felsok/");
             sw.WriteLine(si5);
-            sw.WriteLine(ss5);
+            sw.WriteLine(ss5.name);
 
+            sw.WriteLine("dresses/");
             sw.WriteLine(si6);
-            sw.WriteLine(ss6);
+            sw.WriteLine(ss6.name);
 
             /*     sw.WriteLine(si7);
                  sw.WriteLine(ss7);*/
