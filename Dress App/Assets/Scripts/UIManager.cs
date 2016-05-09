@@ -172,6 +172,7 @@ public class UIManager : MonoBehaviour {
                     {
                         go.GetComponent<Button>().onClick.AddListener(() => p.GetComponent<PlayerController>().setPants(1));
                         go.GetComponent<Button>().onClick.AddListener(() => p.GetComponent<PlayerController>().setDress(0));
+                        go.GetComponent<Button>().onClick.AddListener(() => ures("image_dress"));
                     }
                     break;
                 case ("image_cipo"):
@@ -188,6 +189,7 @@ public class UIManager : MonoBehaviour {
                     {
                         go.GetComponent<Button>().onClick.AddListener(() => p.GetComponent<PlayerController>().setTop(1));
                         go.GetComponent<Button>().onClick.AddListener(() => p.GetComponent<PlayerController>().setDress(0));
+                        go.GetComponent<Button>().onClick.AddListener(() => ures("image_dress"));
                     }
                     break;
                 case ("image_dress"):
@@ -195,6 +197,8 @@ public class UIManager : MonoBehaviour {
                         go.GetComponent<Button>().onClick.AddListener(() => p.GetComponent<PlayerController>().setPants(0));
                         go.GetComponent<Button>().onClick.AddListener(() => p.GetComponent<PlayerController>().setDress(1));
                         go.GetComponent<Button>().onClick.AddListener(() => p.GetComponent<PlayerController>().setTop(0));
+                        go.GetComponent<Button>().onClick.AddListener(() => ures("image_felso"));
+                        go.GetComponent<Button>().onClick.AddListener(() => ures("image_also"));
                     }
                     break;
                 /*case ("image_baba"):
@@ -224,6 +228,12 @@ public class UIManager : MonoBehaviour {
             i++;
         }
        
+    }
+
+    private void ures(string s)
+    {
+        GameObject go = GameObject.Find(s);
+        go.GetComponent<Image>().sprite = Resources.Load("ures", typeof(Sprite)) as Sprite;
     }
 
    private void on(string s, Sprite spr)

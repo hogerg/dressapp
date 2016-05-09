@@ -3,13 +3,13 @@ image_also
 bj
 dzsekik/
 image_dzseki
-sall
+dzseki
 cipok/
 image_cipo
 piros_cipo
 felsok/
 image_felso
-felso
+felso2
 dresses/
 image_dress
 ures
